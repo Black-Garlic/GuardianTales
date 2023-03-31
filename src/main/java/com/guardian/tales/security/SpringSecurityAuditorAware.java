@@ -1,6 +1,6 @@
 package com.guardian.tales.security;
 
-import com.guardian.tales.config.Constants;
+import com.guardian.tales.constants.Constants;
 import java.util.Optional;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;

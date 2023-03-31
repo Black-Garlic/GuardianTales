@@ -1,4 +1,4 @@
-package com.guardian.tales.config;
+package com.guardian.tales.constants;
 
 /**
  * Application constants.

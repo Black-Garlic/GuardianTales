@@ -1,7 +1,6 @@
 package com.guardian.tales.config;
 
-import com.guardian.tales.security.*;
-import com.guardian.tales.security.jwt.*;
+import com.guardian.tales.constants.AuthoritiesConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
@@ -25,18 +24,10 @@ public class SecurityConfiguration {
 
     private final JHipsterProperties jHipsterProperties;
 
-    private final TokenProvider tokenProvider;
-
     private final CorsFilter corsFilter;
     private final SecurityProblemSupport problemSupport;
 
-    public SecurityConfiguration(
-        TokenProvider tokenProvider,
-        CorsFilter corsFilter,
-        JHipsterProperties jHipsterProperties,
-        SecurityProblemSupport problemSupport
-    ) {
-        this.tokenProvider = tokenProvider;
+    public SecurityConfiguration(CorsFilter corsFilter, JHipsterProperties jHipsterProperties, SecurityProblemSupport problemSupport) {
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
         this.jHipsterProperties = jHipsterProperties;
@@ -90,14 +81,8 @@ public class SecurityConfiguration {
             .antMatchers("/management/prometheus").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
         .and()
-            .httpBasic()
-        .and()
-            .apply(securityConfigurerAdapter());
+            .httpBasic();
         return http.build();
         // @formatter:on
-    }
-
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
     }
 }

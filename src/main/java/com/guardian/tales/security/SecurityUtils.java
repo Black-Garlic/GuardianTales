@@ -1,5 +1,6 @@
 package com.guardian.tales.security;
 
+import com.guardian.tales.constants.AuthoritiesConstants;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Stream;

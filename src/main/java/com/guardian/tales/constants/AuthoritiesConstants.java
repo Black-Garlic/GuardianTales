@@ -1,4 +1,4 @@
-package com.guardian.tales.security;
+package com.guardian.tales.constants;
 
 /**
  * Constants for Spring Security authorities.
