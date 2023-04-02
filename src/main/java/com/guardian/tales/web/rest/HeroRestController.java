@@ -7,6 +7,7 @@ import com.guardian.tales.web.rest.vm.HeroVM;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -24,6 +25,15 @@ public class HeroRestController {
             return heroService.getHeroesList(heroVM);
         } catch (Exception e) {
             return new ArrayList<>();
+        }
+    }
+
+    @GetMapping(path = Path.HERO, produces = "application/json")
+    public HeroDTO.HeroInfo getHeroDetail(@PathVariable Integer id) {
+        try {
+            return heroService.getHeroDetail(id);
+        } catch (Exception e) {
+            return new HeroDTO.HeroInfo();
         }
     }
 }

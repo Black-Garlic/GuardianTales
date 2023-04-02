@@ -8,6 +8,7 @@ import com.guardian.tales.service.dto.HeroDTO;
 import com.guardian.tales.service.mapper.HeroMapper;
 import com.guardian.tales.web.rest.vm.HeroVM;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,5 +30,17 @@ public class HeroService {
         List<HeroInfo> heroInfoList = heroInfoRepository.findByQDSLSearchValues(heroVM, chainTypeList);
 
         return heroMapper.heroInfoListToHeroInfoDTOList(heroInfoList, chainTypeList);
+    }
+
+    public HeroDTO.HeroInfo getHeroDetail(Integer heroInfoId) throws Exception {
+        List<ChainType> chainTypeList = chainTypeRepository.findAll();
+
+        Optional<HeroInfo> heroInfoOptional = heroInfoRepository.findById(heroInfoId);
+
+        if (heroInfoOptional.isEmpty()) {
+            throw new Exception();
+        }
+
+        return heroMapper.heroInfoToHeroInfoDTO(heroInfoOptional.get(), chainTypeList, true);
     }
 }

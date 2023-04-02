@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 public class HeroMapper {
 
     public List<HeroDTO.HeroInfo> heroInfoListToHeroInfoDTOList(List<HeroInfo> heroInfoList, List<ChainType> chainTypeList) {
-        return heroInfoList.stream().map(heroInfo -> heroInfoToHeroInfoDTO(heroInfo, chainTypeList)).collect(Collectors.toList());
+        return heroInfoList.stream().map(heroInfo -> heroInfoToHeroInfoDTO(heroInfo, chainTypeList, false)).collect(Collectors.toList());
     }
 
-    public HeroDTO.HeroInfo heroInfoToHeroInfoDTO(HeroInfo heroInfo, List<ChainType> chainTypeList) {
-        return new HeroDTO.HeroInfo(heroInfo, chainTypeList);
+    public HeroDTO.HeroInfo heroInfoToHeroInfoDTO(HeroInfo heroInfo, List<ChainType> chainTypeList, boolean includeWeaponInfo) {
+        return new HeroDTO.HeroInfo(heroInfo, chainTypeList, includeWeaponInfo);
     }
 }
