@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class HeroMapper {
 
-    public List<HeroDTO.HeroInfo> heroInfoListToHeroInfoDTOList(List<HeroInfo> heroInfoList) {
-        return heroInfoList.stream().map(this::heroInfoToHeroInfoDTO).collect(Collectors.toList());
+    public List<HeroDTO.HeroInfo> heroInfoListToHeroInfoDTOList(List<HeroInfo> heroInfoList, List<ChainType> chainTypeList) {
+        return heroInfoList.stream().map(heroInfo -> heroInfoToHeroInfoDTO(heroInfo, chainTypeList)).collect(Collectors.toList());
     }
 
-    public HeroDTO.HeroInfo heroInfoToHeroInfoDTO(HeroInfo heroInfo) {
-        return new HeroDTO.HeroInfo(heroInfo);
+    public HeroDTO.HeroInfo heroInfoToHeroInfoDTO(HeroInfo heroInfo, List<ChainType> chainTypeList) {
+        return new HeroDTO.HeroInfo(heroInfo, chainTypeList);
     }
 }

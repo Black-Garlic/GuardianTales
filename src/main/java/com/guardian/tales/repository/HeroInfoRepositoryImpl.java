@@ -17,7 +17,7 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
     }
 
     @Override
-    public List<HeroInfo> findByQDSLSearchValues(HeroVM.ListParam param) {
+    public List<HeroInfo> findByQDSLSearchValues(HeroVM.ListParam param, List<ChainType> chainTypeList) {
         QHeroInfo heroInfo = QHeroInfo.heroInfo;
         QHero hero = QHero.hero;
         QRole role = QRole.role;
@@ -101,37 +101,45 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
         }
 
         // 파티 버프
-        if (param.getPartyBuff() != null && param.getPartyBuff().size() > 0) {
+        if (param.getEndChainType() != null && param.getEndChainType().size() > 0) {
             BooleanBuilder orBuilder = new BooleanBuilder();
 
-            for (String weaponSkillChainTypeName : param.getPartyBuff()) {
+            for (String weaponSkillChainTypeName : param.getEndChainType()) {
                 orBuilder.or(heroInfo.partyBuff.like("%" + weaponSkillChainTypeName + "%", '!'));
             }
 
             andBuilder.and(orBuilder);
         }
 
-        //        // 연계기 시작 타입 필터
-        //        if (param.getStartChainType() != null && param.getStartChainType().size() > 0) {
-        //            BooleanBuilder orBuilder = new BooleanBuilder();
-        //
-        //            for (String  : param.getStartChainType()) {
-        //                orBuilder.or(heroInfo.hero.stage.eq(stage));
-        //            }
-        //
-        //            andBuilder.and(orBuilder);
-        //        }
-        //
-        //        // 연계기 종료 타입 필터
-        //        if (param.getStage() != null && param.getStage().size() > 0) {
-        //            BooleanBuilder orBuilder = new BooleanBuilder();
-        //
-        //            for (String stage : param.getStage()) {
-        //                orBuilder.or(heroInfo.hero.stage.eq(stage));
-        //            }
-        //
-        //            andBuilder.and(orBuilder);
-        //        }
+        // 연계기 시작 타입 필터
+        if (param.getStartChainType() != null && param.getStartChainType().size() > 0) {
+            BooleanBuilder orBuilder = new BooleanBuilder();
+
+            for (String startChainTypeName : param.getStartChainType()) {
+                for (ChainType chainTypeEntity : chainTypeList) {
+                    if (startChainTypeName.equals(chainTypeEntity.getName())) {
+                        orBuilder.or(heroInfo.chainSkillStartType.eq(chainTypeEntity.getChainTypeId()));
+                    }
+                }
+            }
+
+            andBuilder.and(orBuilder);
+        }
+
+        // 연계기 종료 타입 필터
+        if (param.getEndChainType() != null && param.getEndChainType().size() > 0) {
+            BooleanBuilder orBuilder = new BooleanBuilder();
+
+            for (String endChainTypeName : param.getEndChainType()) {
+                for (ChainType chainTypeEntity : chainTypeList) {
+                    if (endChainTypeName.equals(chainTypeEntity.getName())) {
+                        orBuilder.or(heroInfo.chainSkillEndType.eq(chainTypeEntity.getChainTypeId()));
+                    }
+                }
+            }
+
+            andBuilder.and(orBuilder);
+        }
 
         query.where(andBuilder);
         query.distinct();
