@@ -18,6 +18,7 @@ public class HeroDTO {
 
         private Integer heroInfoId;
         private String name;
+        private String englishName;
         private String stage;
         private String role;
         private String element;
@@ -41,6 +42,7 @@ public class HeroDTO {
         public HeroInfo(com.guardian.tales.domain.HeroInfo heroInfo, List<ChainType> chainTypeList, boolean includeWeaponInfo) {
             this.heroInfoId = heroInfo.getHeroInfoId();
             this.name = heroInfo.getHero().getName();
+            this.englishName = heroInfo.getHero().getEnglishName();
             this.stage = heroInfo.getHero().getStage();
             this.role = heroInfo.getHero().getRole().getName();
             this.element = heroInfo.getHero().getElement().getName();

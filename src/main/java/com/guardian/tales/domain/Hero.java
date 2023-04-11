@@ -22,6 +22,9 @@ public class Hero {
     @Column(name = "name", length = 20)
     private String name;
 
+    @Column(name = "english_name", length = 20)
+    private String englishName;
+
     @Column(name = "stage", length = 10)
     private String stage;
 
