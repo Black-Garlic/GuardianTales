@@ -15,9 +15,9 @@ public class HeroVM {
         private Set<String> role;
         private Set<String> element;
         private Set<String> weaponType;
-        private Set<String> weaponSkillChainType;
+        private Set<String> weaponSkillType;
         private Set<String> partyBuff;
-        private Set<String> startChainType;
-        private Set<String> endChainType;
+        private Set<String> chainSkillStartType;
+        private Set<String> chainSkillEndType;
     }
 }

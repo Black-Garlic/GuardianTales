@@ -90,10 +90,10 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
         }
 
         // 무기 스킬 타입 필터
-        if (param.getWeaponSkillChainType() != null && param.getWeaponSkillChainType().size() > 0) {
+        if (param.getWeaponSkillType() != null && param.getWeaponSkillType().size() > 0) {
             BooleanBuilder orBuilder = new BooleanBuilder();
 
-            for (String weaponSkillChainTypeName : param.getWeaponSkillChainType()) {
+            for (String weaponSkillChainTypeName : param.getWeaponSkillType()) {
                 orBuilder.or(heroInfo.weapon.chainType.name.eq(weaponSkillChainTypeName));
             }
 
@@ -101,10 +101,10 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
         }
 
         // 파티 버프
-        if (param.getEndChainType() != null && param.getEndChainType().size() > 0) {
+        if (param.getPartyBuff() != null && param.getPartyBuff().size() > 0) {
             BooleanBuilder orBuilder = new BooleanBuilder();
 
-            for (String weaponSkillChainTypeName : param.getEndChainType()) {
+            for (String weaponSkillChainTypeName : param.getPartyBuff()) {
                 orBuilder.or(heroInfo.partyBuff.like("%" + weaponSkillChainTypeName + "%", '!'));
             }
 
@@ -112,10 +112,10 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
         }
 
         // 연계기 시작 타입 필터
-        if (param.getStartChainType() != null && param.getStartChainType().size() > 0) {
+        if (param.getChainSkillStartType() != null && param.getChainSkillStartType().size() > 0) {
             BooleanBuilder orBuilder = new BooleanBuilder();
 
-            for (String startChainTypeName : param.getStartChainType()) {
+            for (String startChainTypeName : param.getChainSkillStartType()) {
                 for (ChainType chainTypeEntity : chainTypeList) {
                     if (startChainTypeName.equals(chainTypeEntity.getName())) {
                         orBuilder.or(heroInfo.chainSkillStartType.eq(chainTypeEntity.getChainTypeId()));
@@ -127,10 +127,10 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
         }
 
         // 연계기 종료 타입 필터
-        if (param.getEndChainType() != null && param.getEndChainType().size() > 0) {
+        if (param.getChainSkillEndType() != null && param.getChainSkillEndType().size() > 0) {
             BooleanBuilder orBuilder = new BooleanBuilder();
 
-            for (String endChainTypeName : param.getEndChainType()) {
+            for (String endChainTypeName : param.getChainSkillEndType()) {
                 for (ChainType chainTypeEntity : chainTypeList) {
                     if (endChainTypeName.equals(chainTypeEntity.getName())) {
                         orBuilder.or(heroInfo.chainSkillEndType.eq(chainTypeEntity.getChainTypeId()));
@@ -143,6 +143,7 @@ public class HeroInfoRepositoryImpl extends QuerydslRepositorySupport implements
 
         query.where(andBuilder);
         query.distinct();
+        query.orderBy(heroInfo.heroInfoId.asc());
         QueryResults<HeroInfo> result = query.fetchResults();
 
         return result.getResults();
